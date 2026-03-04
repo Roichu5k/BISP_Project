@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 import uvicorn
 from .database import engine, Base, get_db
 from . import models
+from src.routers import companies
 
 # Crear tablas en PostgreSQL al iniciar (si no existen)
 Base.metadata.create_all(bind=engine)
@@ -12,6 +13,8 @@ app = FastAPI(
     description="Business Intelligence Scraper Platform API", 
     version="1.0.0"
 )
+
+app.include_router(companies.router, prefix="/api/v1")
 
 @app.get("/")
 def read_root():
